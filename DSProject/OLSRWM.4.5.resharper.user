@@ -1,0 +1,30 @@
+<Configuration>
+  <SettingsComponent>
+    <string />
+    <integer />
+    <boolean>
+      <setting name="SolutionAnalysisEnabled">False</setting>
+    </boolean>
+  </SettingsComponent>
+  <NAntValidationSettings>
+    <NAntPath value="" />
+  </NAntValidationSettings>
+  <RecentFiles>
+    <RecentFiles>
+      <File id="7341135A-97C3-4776-842E-C482D338522C/f:Program.cs" caret="0" fromTop="0" />
+      <File id="d:Miscellaneous Files/f:Program.cs/l:D!?technion?semester 9?DS Project?protocols?OLSR PC _ PDA April 2010?OLSR_PC_v1.0?OLSR_PC?Program.cs" caret="0" fromTop="0" />
+      <File id="7341135A-97C3-4776-842E-C482D338522C/d:Screens/f:StartScreen.cs" caret="8196" fromTop="5" />
+      <File id="7341135A-97C3-4776-842E-C482D338522C/f:Languages.xml" caret="0" fromTop="0" />
+      <File id="7341135A-97C3-4776-842E-C482D338522C/f:config.xml" caret="0" fromTop="0" />
+      <File id="7341135A-97C3-4776-842E-C482D338522C/d:Configuration/f:PropertiesReader.cs" caret="1434" fromTop="10" />
+      <File id="d:Miscellaneous Files/f:StartScreen.cs/l:D!?technion?semester 9?DS Project?protocols?OLSR PC _ PDA April 2010?OLSR_PC_v1.0?OLSR_PC?Screens?StartScreen.cs" caret="5525" fromTop="11" />
+    </RecentFiles>
+    <RecentEdits>
+      <File id="7341135A-97C3-4776-842E-C482D338522C/d:Screens/f:StartScreen.cs" caret="8210" fromTop="9" />
+      <File id="7341135A-97C3-4776-842E-C482D338522C/d:Screens/f:StartScreen.cs" caret="8619" fromTop="14" />
+    </RecentEdits>
+  </RecentFiles>
+  <UnitTestRunner>
+    <Providers />
+  </UnitTestRunner>
+</Configuration>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<languages>
+  <English>
+    <workertab>WORKER</workertab>
+    <workerid>Worker ID</workerid>
+    <workerteam>Team Size</workerteam>
+    <workergroups>Groups</workergroups>
+    <workerjoin>Join</workerjoin>
+    <workerload>Load</workerload>
+    <olsrtab>OLSR</olsrtab>
+    <olsrifaces>Interface address list</olsrifaces>
+    <olsrtest>Test Mode</olsrtest>
+    <olsrstart>Start</olsrstart>
+    <olsrstop>Stop</olsrstop>
+    <paramstab>OLSR Params</paramstab>
+    <paramstitle>OLSR configuration Parameters</paramstitle>
+    <paramshello>HELLO interval</paramshello>
+    <paramstc>TC interval</paramstc>
+    <paramsrefresh>Refresh interval</paramsrefresh>
+    <paramslanguage>Language</paramslanguage>
+    <paramslanguages>English,Italian</paramslanguages>
+    <paramsrestore>Restore RFC</paramsrestore>
+    <paramssave>Save</paramssave>
+    <neighbortab>Neighbors</neighbortab>
+    <neighborlink>Neighbours</neighborlink>
+    <neighborsecond>2-hop Neighbours</neighborsecond>
+    <mprtab>MPR</mprtab>
+    <mprlist>MPR'S</mprlist>
+    <errortestfile>Error reading debug file, the system starts normally</errortestfile>
+    <selectiface>You must select one interface of the list</selectiface>
+    <reboot>The system is going to reboot in order to setup the new configuration</reboot>
+  </English>
+  <Italian>
+    <workertab>OPERATORE</workertab>
+    <workerid>ID Operatore</workerid>
+    <workerteam>Dimensione Gruppo </workerteam>
+    <workergroups>Gruppi </workergroups>
+    <workerjoin>Partecipa </workerjoin>
+    <workerload>Carico </workerload>
+    <olsrtab>OLSR</olsrtab>
+    <olsrifaces>Lista indirizzi interfacce</olsrifaces>
+    <olsrtest>Modalit di test </olsrtest>
+    <olsrstart>Avvia</olsrstart>
+    <olsrstop>Ferma</olsrstop>
+    <paramstab>Parametri OLSR</paramstab>
+    <paramstitle>Parametri di configurazione OLSR</paramstitle>
+    <paramshello>Intervallo tra HELLO</paramshello>
+    <paramstc>Intervallo tra TC</paramstc>
+    <paramsrefresh>Intervallo di aggiornamento</paramsrefresh>
+    <paramslanguage>Lingua</paramslanguage>
+    <paramslanguages>Inglese,Italiano</paramslanguages>
+    <paramsrestore>Ripristina RFC </paramsrestore>
+    <paramssave>Salva </paramssave>
+    <neighbortab>Vicini</neighbortab>
+    <neighborlink>Vicini</neighborlink>
+    <neighborsecond>Vicini a 2-hop</neighborsecond>
+    <mprtab>MPR</mprtab>
+    <mprlist>MPR'S</mprlist>
+    <errortestfile>Errore durante la lettura del file di debug, il sistema si avvier normalmente </errortestfile>
+    <selectiface> necessario selezionare un'interfaccia dalla lista</selectiface>
+    <reboot>Il sistema si deve risettare per carricare la nuova configurazione</reboot>
+  </Italian>
+</languages>
