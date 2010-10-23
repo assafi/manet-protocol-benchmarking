@@ -1,0 +1,5 @@
+C:\Users\Administrator\Documents\Visual Studio 2008\Projects\Daemon\Daemon\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Administrator\Documents\Visual Studio 2008\Projects\Daemon\Daemon\bin\Debug\Daemon.exe
+C:\Users\Administrator\Documents\Visual Studio 2008\Projects\Daemon\Daemon\bin\Debug\Daemon.pdb
+C:\Users\Administrator\Documents\Visual Studio 2008\Projects\Daemon\Daemon\obj\Debug\Daemon.exe
+C:\Users\Administrator\Documents\Visual Studio 2008\Projects\Daemon\Daemon\obj\Debug\Daemon.pdb
