@@ -14,7 +14,7 @@ namespace Daemon
     {
         private const int DeamonPort = 8001;
         private const int IperfPort = 5001;
-        private const int BufferSize = 4096;
+        private const int BufferSize = 8192;
 
         private readonly TcpListener _tcpListener;
         private readonly TcpClient _tcpClient;
@@ -60,7 +60,7 @@ namespace Daemon
                 try
                 {
                     //blocks until a client sends a message
-                    bytesRead = _clientStream.Read(message, 0, 4096);
+                    bytesRead = _clientStream.Read(message, 0, BufferSize);
                     _serverStream.Write(message, 0, bytesRead);
                 }
                 catch (Exception e)
@@ -96,8 +96,8 @@ namespace Daemon
                 int bytesRead = 0;
                 try
                 {
-                    //blocks until a client sends a message
-                    bytesRead = _serverStream.Read(message, 0, 4096);
+                    //blocks until a client sends a message%
+                    bytesRead = _serverStream.Read(message, 0, BufferSize);
                     _clientStream.Write(message, 0, bytesRead);
                 }
                 catch (Exception e)
@@ -118,7 +118,7 @@ namespace Daemon
 
         public static void Main()
         {
-            //Process.Start("\\Program Files\\iperfWM\\iperfWiMo.exe", "-s");
+            Process.Start("\\Program Files\\iperfWM\\iperfWiMo.exe", "\\Program Files\\iperfWM\\iperfWiMoserver.out.txt \\Program Files\\iperfWM\\iperfWiMoserver.err.txt -s");
             Process.Start("\\Program Files\\runnerWM\\Runner.exe", "");
             Console.WriteLine("Daemon activated");
             var daemon = new Daemon();
