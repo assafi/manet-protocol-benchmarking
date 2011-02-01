@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<Default_Settings>
+		<hello>2</hello>
+		<tc>5</tc>
+		<refresh>2</refresh>
+		<language>English</language>
+	</Default_Settings>
+	<Read_Settings>
+		<hello>4</hello>
+		<tc>10</tc>
+		<refresh>4</refresh>
+		<language>English</language>
+	</Read_Settings>
+</configuration>

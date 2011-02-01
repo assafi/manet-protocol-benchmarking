@@ -1,0 +1,139 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7341135A-97C3-4776-842E-C482D338522C}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OLSRWM</RootNamespace>
+    <AssemblyName>OLSRWM</AssemblyName>
+    <ProjectTypeGuids>{4D628B5B-2FBC-4AA6-8C16-197242AEB884};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <PlatformFamilyName>PocketPC</PlatformFamilyName>
+    <PlatformID>b2c48bd2-963d-4549-9169-1fa021dce484</PlatformID>
+    <OSVersion>5.2</OSVersion>
+    <DeployDirSuffix>OLSRWM</DeployDirSuffix>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <NativePlatformName>Windows Mobile 6 Professional SDK</NativePlatformName>
+    <FormFactorID>
+    </FormFactorID>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;$(PlatformFamilyName)</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <FileAlignment>512</FileAlignment>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;$(PlatformFamilyName)</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <FileAlignment>512</FileAlignment>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="OpenNETCF.Net, Version=2.3.0.39, Culture=neutral, PublicKeyToken=e60dbea84bb431b7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Smart Device Framework\Bin\OpenNETCF.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Communication\DataRecieve.cs" />
+    <Compile Include="Communication\InfoReceiver.cs" />
+    <Compile Include="Communication\InfoSender.cs" />
+    <Compile Include="Configuration\ControlInvoker.cs" />
+    <Compile Include="Configuration\Converter.cs" />
+    <Compile Include="Configuration\LanguageConfiguration.cs" />
+    <Compile Include="Configuration\LogWriter.cs" />
+    <Compile Include="Configuration\PropertiesReader.cs" />
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OLSR\OLSRConstants.cs" />
+    <Compile Include="OLSR\OLSRFunctions.cs" />
+    <Compile Include="OLSR\OLSRParameters.cs" />
+    <Compile Include="OLSR\Packets\Messages\HELLO\Hello.cs" />
+    <Compile Include="OLSR\Packets\Messages\HELLO\HelloMessage.cs" />
+    <Compile Include="OLSR\Packets\Messages\Links\Link.cs" />
+    <Compile Include="OLSR\Packets\Messages\Links\LinkSensing.cs" />
+    <Compile Include="OLSR\Packets\Messages\Message.cs" />
+    <Compile Include="OLSR\Packets\Messages\MPR\MPRCompute.cs" />
+    <Compile Include="OLSR\Packets\Messages\MPR\MPRSelector.cs" />
+    <Compile Include="OLSR\Packets\Messages\Neighbors\Neighbor.cs" />
+    <Compile Include="OLSR\Packets\Messages\Neighbors\SecondHopNeighbor.cs" />
+    <Compile Include="OLSR\Packets\Messages\TC\Topology.cs" />
+    <Compile Include="OLSR\Packets\Messages\TC\TopologyControl.cs" />
+    <Compile Include="OLSR\Packets\Messages\TC\TopologyControlMessage.cs" />
+    <Compile Include="OLSR\Packets\PacketGenerator.cs" />
+    <Compile Include="OLSR\Packets\PacketProcessing.cs" />
+    <Compile Include="OLSR\Packets\PacketReader.cs" />
+    <Compile Include="OLSR\RoutingTable\ChangeRoutingTable.cs" />
+    <Compile Include="OLSR\RoutingTable\Route.cs" />
+    <Compile Include="OLSR\RoutingTable\RoutingTableCalculation.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Screens\StartScreen.resx">
+      <DependentUpon>StartScreen.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Screens\StartScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\StartScreen.Designer.cs">
+      <DependentUpon>StartScreen.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="config.xml" />
+    <Content Include="Languages.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}">
+        <HostingProcess disable="1" />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
