@@ -127,8 +127,10 @@ namespace Runner
             // 
             // protocolsComboBox
             // 
-            foreach (var protocolName in ProtocolsNames.Protocols)
+            foreach (var protocolClassName in ProtocolsNames.Protocols)
             {
+                int classNameIndex = protocolClassName.Split(new char[] {'.'}).Length;
+                string protocolName = protocolClassName.Split(new char[] {'.'})[classNameIndex-1]; // Get the class name without the namespaces
                 this.protocolsComboBox.Items.Add(protocolName);         
             }
             this.protocolsComboBox.Location = new System.Drawing.Point(0, 31);

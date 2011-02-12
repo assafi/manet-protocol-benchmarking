@@ -15,8 +15,8 @@ namespace ManetProtocolAdaptors
 {
     public class OLSRProtocolAdaptor : IManetProtocol
     {
-        private const int _dataPort = 8888;
-        private const int BufferSize = 8192;
+        private int _dataPort = 8888;
+        private int BufferSize = 8192;
         private Thread _olsrDataThread;
 
         IPEndPoint ipep;
@@ -29,15 +29,20 @@ namespace ManetProtocolAdaptors
         private byte[] _msg;
         private ILogger _logger;
 
+        private Dictionary<string, int> routes;
+
         public OLSRProtocolAdaptor()
         {
 
         }
 
-        public void StartProtocol(IPAddress localIp, ILogger logger)
+        public void StartProtocol(IPAddress localIp, int dataPort, int bufferSize, ILogger logger)
         {
             this._logger = logger;
             this._localIp = localIp;
+            this._dataPort = dataPort;
+            this.BufferSize = bufferSize;
+            routes = new Dictionary<string, int>();
             StartScreen.GetInstance().ConfigureLocalIface(localIp);
             StartScreen.GetInstance().bttStart_Click(null, null);
             _dataRecived = new AutoResetEvent(false);
@@ -95,9 +100,15 @@ namespace ManetProtocolAdaptors
 
             StartScreen.GetInstance().bttStop_Click(null, null);
             _logger.addLineToLog("EndProtocol: Protocol stopped");
+            _logger.addLineToLog("EndProtocol: routs:");
+            foreach (string addr in routes.Keys)
+            {
+                _logger.addLineToLog(addr + " - " + routes[addr]);
+            }
+
         }
 
-        public bool SendMessage(IPAddress destIP, byte[] message, int messageSize)
+        public bool SendMessage(IPAddress destIp, byte[] message, int messageSize)
         {
             /*
              * 1.Get the routes
@@ -112,21 +123,29 @@ namespace ManetProtocolAdaptors
             foreach (Route route in newRoutes)
             {
                 //_logger.addLineToLog("SendMessage: rout dest " + route.R_dest_addr_.ToString());
-                if (route.R_dest_addr_.Equals(destIP))
+                if (route.R_dest_addr_.Equals(destIp))
                 {
                     routFound = true;
-                    var targetEndPoint = new IPEndPoint(route.R_dest_addr_, _dataPort);
+                    var targetEndPoint = new IPEndPoint(route.R_next_addr_, _dataPort);
 
                     int sendSize = 0;
 
                     // Append the destination address to the begging of the message
-                    byte[] sendMsg = new byte[destIP.GetAddressBytes().Length + message.Length];
-                    System.Buffer.BlockCopy(destIP.GetAddressBytes(), 0, sendMsg, 0, destIP.GetAddressBytes().Length);
-                    System.Buffer.BlockCopy(message, 0, sendMsg, destIP.GetAddressBytes().Length, 1);
+                    byte[] sendMsg = new byte[destIp.GetAddressBytes().Length + message.Length];
+                    System.Buffer.BlockCopy(destIp.GetAddressBytes(), 0, sendMsg, 0, destIp.GetAddressBytes().Length);
+                    System.Buffer.BlockCopy(message, 0, sendMsg, destIp.GetAddressBytes().Length, 1);
 
+                    int count = 1;
                     do
                     {
-                        //_logger.addLineToLog("SendMessage: sending data");
+                        //_logger.addLineToLog("SendMessage: to " + targetEndPoint.Address.ToString());
+                        if (routes.ContainsKey(targetEndPoint.Address.ToString()))
+                        {
+                            count = routes[targetEndPoint.Address.ToString()] + 1;
+                            routes.Remove(targetEndPoint.Address.ToString());
+                        }
+                        routes.Add(targetEndPoint.Address.ToString(), count);
+
                         sendSize = _dataSocket.Send(sendMsg, sendMsg.Length, targetEndPoint);
 
                     } while (sendSize < sendMsg.Length);
@@ -157,6 +176,37 @@ namespace ManetProtocolAdaptors
                 return OLSRParameters.NeighborList.Count > 0;
 
             }
+        }
+
+        public List<IPAddress> AvailableNeighbors()
+        {
+            List<IPAddress> neighbors = new List<IPAddress>();
+            lock (OLSRParameters.NeighborList)
+            {
+                for (int i = OLSRParameters.NeighborList.Count - 1; i > -1; i--)
+                {
+                    Neighbor neig = (Neighbor)OLSRParameters.NeighborList[i];
+                    neighbors.Add(neig.GetN_neighbor_iface_addr());
+                }
+
+            }
+
+            return neighbors;
+        }
+
+        public Dictionary<IPAddress, IPAddress> AvailableRoutes()
+        {
+            Dictionary<IPAddress, IPAddress> availibleRoutes = new Dictionary<IPAddress, IPAddress>();
+
+             ArrayList newRoutes = RoutingTableCalculation.GetInstance().CalculateTableRoute();
+             foreach (Route route in newRoutes)
+             {
+                 if (!availibleRoutes.ContainsKey(route.R_dest_addr_))
+                     availibleRoutes.Add(route.R_dest_addr_, route.R_next_addr_);
+                 
+             }
+
+             return availibleRoutes;
         }
 
         public void RecevieMessage(ref byte[] message, ref int messageSize)

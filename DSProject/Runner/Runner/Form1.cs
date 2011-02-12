@@ -28,9 +28,15 @@ namespace Runner
         private bool isIntermediate = false;
         private static Timer timerClient;
         private static Timer timerServer;
+        private static Timer timerPrintNeighbors;
         private static int timerInvokeCounter = 0;
         private IPAddress ipAd;
         private IPAddress ipServer;
+
+        //Parameters
+        private int paccketSize = 8192; // in bytes
+        private int sendTime = 60; // in seconds
+        private int dataPort = 8888; // in seconds
 
 
         public Runner()
@@ -58,13 +64,41 @@ namespace Runner
                 if (protocolsComboBox.Text != null)
                 {
                     // Create an instance of the chosen protocol
-                    manetProtocol = (IManetProtocol)System.Activator.CreateInstance(Type.GetType(protocolsComboBox.Text));
+                    manetProtocol = (IManetProtocol)System.Activator.CreateInstance(Type.GetType(ProtocolsNames.Protocols[protocolsComboBox.SelectedIndex]));
                 }
                 //manetProtocol = new OLSRProtocolAdaptor();
 
                 runMenuItem.Text = "Stop";
                 if (argsComboBox.Text != null)
                 {
+                    //Packet size parameter
+                    int packetSizeIndex = argsComboBox.Text.IndexOf("-psz");
+                    if (packetSizeIndex != -1)
+                    {
+                        int packetSizeEnd = argsComboBox.Text.IndexOf(" ", packetSizeIndex + 5);
+                        string paccketSizeStr = packetSizeEnd == -1 ? argsComboBox.Text.Substring(packetSizeIndex + 5) : argsComboBox.Text.Substring(packetSizeIndex + 5, packetSizeEnd - packetSizeIndex - 5);
+                        paccketSize = System.Convert.ToInt32(paccketSizeStr);
+                    }
+
+                    //sending time parameter
+                    int sendTimeIndex = argsComboBox.Text.IndexOf("-t");
+                    if (sendTimeIndex != -1)
+                    {
+                        int sendTimeEnd = argsComboBox.Text.IndexOf(" ", sendTimeIndex + 3);
+                        string sendTimeStr = sendTimeEnd == -1 ? argsComboBox.Text.Substring(sendTimeIndex + 3) : argsComboBox.Text.Substring(sendTimeIndex + 3, sendTimeEnd - sendTimeIndex - 3);
+                        sendTime = System.Convert.ToInt32(sendTimeStr);
+                    }
+
+                    //data port parameter
+                    int dataPortIndex = argsComboBox.Text.IndexOf("-p");
+                    if (dataPortIndex != -1)
+                    {
+                        int dataPortEnd = argsComboBox.Text.IndexOf(" ", dataPortIndex + 3);
+                        string dataPortStr = dataPortEnd == -1 ? argsComboBox.Text.Substring(dataPortIndex + 3) : argsComboBox.Text.Substring(dataPortIndex + 3, dataPortEnd - dataPortIndex - 3);
+                        dataPort = System.Convert.ToInt32(dataPortStr);
+                    }
+
+                    //local ip parameter
                     int ipIndex = argsComboBox.Text.IndexOf("-ip");
                     if (ipIndex != -1)
                     {
@@ -74,7 +108,7 @@ namespace Runner
                     }
 
                     // Start the protocol
-                    manetProtocol.StartProtocol(ipAd, this);
+                    manetProtocol.StartProtocol(ipAd, dataPort, paccketSize, this);
                     stop = false;
                     timerInvokeCounter = 0;
                     
@@ -82,6 +116,7 @@ namespace Runner
                     isIntermediate = argsComboBox.Text.Contains("-inter");
                     if (!isServer)
                     {
+                        //server ip parameter
                         int ipServerIndex = argsComboBox.Text.IndexOf("-c");
                         if (ipServerIndex != -1)
                         {
@@ -128,7 +163,10 @@ namespace Runner
             {
             }
 
-            manetProtocol.PrintNeighbors();
+            //manetProtocol.PrintNeighbors();
+
+            //timerPrintNeighbors = new Timer(TimerEventPrintNeighbors, this, 0, 5000); // Print the neighbors every 5 seconds
+            timerPrintNeighbors = new Timer(TimerEventPrintRoutes, this, 0, 5000); // Print the neighbors every 5 seconds
 
             if(isIntermediate) return; // if this is an intermediate node don't do anything
 
@@ -145,7 +183,7 @@ namespace Runner
                     {
                         // count the sent message only 
                         counter++;
-                        addLineToLog(Convert.ToString(counter));
+                        //addLineToLog(Convert.ToString(counter));
                     }
                 }
             }
@@ -167,7 +205,7 @@ namespace Runner
                             timerServer = new Timer(TimerEventHandlerServer, this, 60000, 60000);
                         }
                         //addLineToLog(System.Text.Encoding.ASCII.GetString(messege, 0, size));
-                        addLineToLog(Convert.ToString(counter));
+                        //addLineToLog(Convert.ToString(counter));
                     }
                 }
                 //addLineToLog(System.Text.Encoding.ASCII.GetString(messege, 0, size));
@@ -193,6 +231,34 @@ namespace Runner
             stop = true;
             timerServer.Dispose();
             ((Runner)myObject).manetProtocol.InteruptRecevieMessageBlock();
+        }
+
+        private void TimerEventPrintNeighbors(Object myObject)//, EventArgs myEventArgs)
+        {
+            ((Runner) myObject).addLineToLog("Neighbors: ");
+            ((Runner)myObject).PrintNeighbors((Runner)myObject);
+        }
+
+        private void TimerEventPrintRoutes(Object myObject)//, EventArgs myEventArgs)
+        {
+            ((Runner)myObject).addLineToLog("Routes: ");
+            ((Runner)myObject).PrintRoutes((Runner)myObject);
+        }
+
+        private void PrintNeighbors(Runner me)
+        {
+            foreach (var neighbor in me.manetProtocol.AvailableNeighbors())
+            {
+                addLineToLog(neighbor.ToString());
+            }
+        }
+
+        private void PrintRoutes(Runner me)
+        {
+            foreach (var route in me.manetProtocol.AvailableRoutes())
+            {
+                addLineToLog(route.Key.ToString() + "->" + route.Value.ToString());
+            }
         }
 
         private void stopMenuItemClicked(object sender, EventArgs e)
@@ -234,6 +300,7 @@ namespace Runner
 
             logUpdaterExitFlag = true;
 
+            timerPrintNeighbors.Dispose(); // stop the printing of the neighbors
             manetProtocol.EndProtocol();
             
             addLineToLog("************");
